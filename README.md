@@ -69,7 +69,7 @@ lab_project_aic/
 Run the entire end-to-end pipeline locally from your terminal:
 
 ```bash
-cd C:\Users\DGBiao\Downloads\lab_project_aic
+cd lab_project_aic
 python lab_project_aic.py
 ```
 This executes all 10 steps sequentially, outputs detailed evaluation tables to the console, saves trained models to `models/`, and writes all publication-quality charts to `results/`.
