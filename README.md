@@ -1,4 +1,4 @@
-# AIC211: AI for Cybersecurity — Email Spam & BEC Detection Pipeline
+ AIC211: AI for Cybersecurity — Email Spam & BEC Detection Pipeline
 
 **Course:** AIC211 — Artificial Intelligence for Cybersecurity  
 **Topic 8:** Spam / Business Email Compromise (BEC) Detection  
@@ -41,6 +41,8 @@ To adhere strictly to academic standards and the recommendations in the AIC211 s
 lab_project_aic/
 ├── AIC211_Lab_Project_Spam_BEC_Detection.ipynb  # Primary Jupyter Notebook (matching AIC211 Lab standard)
 ├── lab_project_aic.py                          # Unified single-file Python execution script
+├── ai_email_spam_bec_detection_soc_dashboard.html # Production SOC Dashboard (Interactive Demo & Dataset CRUD)
+├── sync_dashboard_data.py                      # Automated pipeline-to-dashboard synchronizer
 ├── datasets/
 │   ├── emails.csv                              # Raw Kaggle Enron corpus (1.36 GB, 517,401 records)
 │   └── enron_spam_data.csv                     # Verified labeled benchmark (33,716 records)
@@ -50,11 +52,12 @@ lab_project_aic/
 │   └── test_split.joblib                       # Isolated, untouched test set (6,028 emails)
 ├── results/
 │   ├── fig1_data_distribution.png              # Class & word length distributions
-│   ├── fig2_confusion_matrices.png             # Confusion matrices for all 4 model configurations
+│   ├── fig2_confusion_matrices.png             # Confusion matrices for all model configurations
 │   ├── fig3_model_comparison.png               # Grouped bar chart comparing key security metrics
 │   ├── fig4_precision_recall_curves.png        # Precision-Recall curves (PR-AUC)
 │   ├── metrics.csv                             # Quantitative metrics table (CSV format)
 │   ├── metrics.json                            # Quantitative metrics table (JSON format)
+│   ├── dashboard_data.json                     # Synchronized metrics & top TF-IDF features
 │   └── error_analysis.txt                      # Privacy-conscious false positive/negative analysis
 ├── requirements.txt                            # Pinned Python package dependencies
 ├── README.md                                   # Comprehensive English documentation (this file)
@@ -69,7 +72,7 @@ lab_project_aic/
 Run the entire end-to-end pipeline locally from your terminal:
 
 ```bash
-cd lab_project_aic
+cd C:\Users\DGBiao\Downloads\lab_project_aic
 python lab_project_aic.py
 ```
 This executes all 10 steps sequentially, outputs detailed evaluation tables to the console, saves trained models to `models/`, and writes all publication-quality charts to `results/`.
@@ -115,25 +118,34 @@ Following the design pattern established in `AIC211_Lab2_IDS_Pipeline_Imbalance_
   * Fits Model 3: Balanced Logistic Regression.
   * Fits Model 4: Balanced Random Forest.
 
-* **STEP 5: Comprehensive Comparison — Finding the Best**
-  * Evaluates all models on the untouched test partition across 7 evaluation metrics.
+* **STEP 5: Random Undersampling & Combined Strategy**
+  * Fits Model 5: Undersampled Logistic Regression.
+  * Fits Model 6: Undersampled Random Forest.
+  * Fits Model 7: Combined (Undersampling + class_weight='balanced') Logistic Regression (Spam Recall = 99.66%).
+  * Fits Model 8: Combined Random Forest.
 
-* **STEP 6: Security Impact Analysis (FP vs. FN)**
+* **STEP 6: Comprehensive Comparison — Finding the Best**
+  * Evaluates all 8 models on the untouched test partition across 7 evaluation metrics.
+
+* **STEP 7: Security Impact Analysis (FP vs. FN)**
   * Evaluates asymmetric security costs in an enterprise SOC context.
   * Conducts privacy-preserving qualitative inspections on misclassified emails.
 
-* **STEP 7: Explainable AI — Top Cybersecurity Risk Indicators**
-  * Extracts top 15 positive coefficients (Spam/Phishing drivers) and negative coefficients (Legitimate Ham drivers) from the linear decision boundary.
+* **STEP 8: Explainable AI — Top Cybersecurity Risk Indicators**
+  * Extracts top positive coefficients (Spam/Phishing drivers) and negative coefficients (Legitimate Ham drivers) from the linear decision boundary.
 
-* **STEP 8: Visualizations**
+* **STEP 9: Visualizations**
   * Generates 4 figures saved at 300 DPI into `results/`.
 
-* **STEP 9: Save Models & Real-Time Inference Demo**
+* **STEP 10: Save Models & Real-Time Inference Demo**
   * Serializes best pipelines to `models/`.
   * Simulates real-time threat scoring across three live scenarios: Legitimate Internal, Phishing Credential Theft, and BEC Wire Transfer Fraud.
 
-* **STEP 10: Final Summary & Engineering Recommendations**
+* **STEP 11: Final Summary & Engineering Recommendations**
   * Synthesizes findings, production recommendations, and architectural trade-offs.
+
+* **STEP 12: Sync Interactive SOC Dashboard**
+  * Automatically propagates latest experimental metrics and feature weights into `ai_email_spam_bec_detection_soc_dashboard.html` and `results/dashboard_data.json`.
 
 ---
 
