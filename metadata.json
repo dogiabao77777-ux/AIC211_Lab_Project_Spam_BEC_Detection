@@ -1,6 +1,0 @@
-{
-  "name": "Vanguard SEG - AI Email Spam & BEC Defense Platform",
-  "description": "Nền tảng phòng thủ Email Spam & BEC tích hợp mô hình Machine Learning cân bằng lớp, phân tích toán học, hướng dẫn chạy chi tiết và Báo cáo Đồ án chuẩn AIC211 Rubric 100/100.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
