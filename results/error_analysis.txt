@@ -1,0 +1,15 @@
+=================================================================
+CYBERSECURITY PRIVACY-PRESERVING ERROR ANALYSIS
+=================================================================
+Evaluated on 6,028 emails.
+Best Combined Model (Logistic Regression): FP=57, FN=10
+
+--- Sample False Positives (Legitimate emails incorrectly quarantined) ---
+  [FP-1] Word Count: 32 | Snippet: "a classic a classic i forgot to attach the resume ! ? ? pierre - philippe ste - marie http : / / pstemarie . homestead ...."
+  [FP-2] Word Count: 5 | Snippet: "how bout this one ...."
+  [FP-3] Word Count: 30 | Snippet: "yvan chaxel your name was listed by yvan as a reference on his application for a graduate school tuition loan . your ass..."
+
+--- Sample False Negatives (Spam/Phishing emails bypassing filter) ---
+  [FN-1] Word Count: 260 | Snippet: "follow - up crm software good morning , i ' m following up on an email sent to you a few weeks back to see if your inter..."
+  [FN-2] Word Count: 193 | Snippet: "tpntfhb up ~ d _ ate : medi ~ cal mar ` v _ el boorgaten bekorstte aggregaat fda approved medications online . petra sni..."
+  [FN-3] Word Count: 60 | Snippet: "let ' s get this settled hey , what ' s up . here ' s the link that you requested . i hope it ' s what you needed . gott..."

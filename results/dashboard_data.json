@@ -1,0 +1,253 @@
+{
+  "project": "AIC211 Email Spam & BEC Detection",
+  "total_emails": 30137,
+  "ham_count": 15590,
+  "spam_count": 14547,
+  "test_size": 6028,
+  "metrics": [
+    {
+      "Model": "Logistic Regression (Baseline)",
+      "Accuracy": 0.9893828798938288,
+      "Precision": 0.9817197020988491,
+      "Recall": 0.9965635738831615,
+      "F1-Score": 0.9890859481582538,
+      "PR-AUC (AP)": 0.9987629803956652,
+      "FP": 54,
+      "FN": 10
+    },
+    {
+      "Model": "Random Forest (Baseline)",
+      "Accuracy": 0.971134704711347,
+      "Precision": 0.9482306684141546,
+      "Recall": 0.9945017182130584,
+      "F1-Score": 0.9708151626970816,
+      "PR-AUC (AP)": 0.996361793607851,
+      "FP": 158,
+      "FN": 16
+    },
+    {
+      "Model": "Logistic Regression (Balanced)",
+      "Accuracy": 0.9890510948905109,
+      "Precision": 0.9810554803788903,
+      "Recall": 0.9965635738831615,
+      "F1-Score": 0.9887487214456189,
+      "PR-AUC (AP)": 0.9988151135236352,
+      "FP": 56,
+      "FN": 10
+    },
+    {
+      "Model": "Random Forest (Balanced)",
+      "Accuracy": 0.9683145321831453,
+      "Precision": 0.9418264543386415,
+      "Recall": 0.9958762886597938,
+      "F1-Score": 0.9680975446801403,
+      "PR-AUC (AP)": 0.9964166258519593,
+      "FP": 179,
+      "FN": 12
+    },
+    {
+      "Model": "Logistic Regression (Undersample)",
+      "Accuracy": 0.988885202388852,
+      "Precision": 0.9807237064592492,
+      "Recall": 0.9965635738831615,
+      "F1-Score": 0.9885801943071416,
+      "PR-AUC (AP)": 0.9987867339285418,
+      "FP": 57,
+      "FN": 10
+    },
+    {
+      "Model": "Random Forest (Undersample)",
+      "Accuracy": 0.9694757796947578,
+      "Precision": 0.9454248366013072,
+      "Recall": 0.9941580756013746,
+      "F1-Score": 0.969179229480737,
+      "PR-AUC (AP)": 0.9961377995111578,
+      "FP": 167,
+      "FN": 17
+    },
+    {
+      "Model": "Logistic Regression (Combined)",
+      "Accuracy": 0.988885202388852,
+      "Precision": 0.9807237064592492,
+      "Recall": 0.9965635738831615,
+      "F1-Score": 0.9885801943071416,
+      "PR-AUC (AP)": 0.9987867339285418,
+      "FP": 57,
+      "FN": 10
+    },
+    {
+      "Model": "Random Forest (Combined)",
+      "Accuracy": 0.9688122096881221,
+      "Precision": 0.9444807315480078,
+      "Recall": 0.9938144329896907,
+      "F1-Score": 0.9685197588747488,
+      "PR-AUC (AP)": 0.9956914303196884,
+      "FP": 170,
+      "FN": 18
+    }
+  ],
+  "top_spam_features": [
+    {
+      "word": "your",
+      "weight": 5.017
+    },
+    {
+      "word": "http",
+      "weight": 4.464
+    },
+    {
+      "word": "no",
+      "weight": 3.93
+    },
+    {
+      "word": "here",
+      "weight": 3.757
+    },
+    {
+      "word": "2004",
+      "weight": 3.437
+    },
+    {
+      "word": "2005",
+      "weight": 3.285
+    },
+    {
+      "word": "software",
+      "weight": 3.244
+    },
+    {
+      "word": "money",
+      "weight": 3.175
+    },
+    {
+      "word": "online",
+      "weight": 3.024
+    },
+    {
+      "word": "you",
+      "weight": 2.824
+    },
+    {
+      "word": "life",
+      "weight": 2.731
+    },
+    {
+      "word": "now",
+      "weight": 2.723
+    },
+    {
+      "word": "mobile",
+      "weight": 2.682
+    },
+    {
+      "word": "man",
+      "weight": 2.617
+    },
+    {
+      "word": "our",
+      "weight": 2.605
+    },
+    {
+      "word": "more",
+      "weight": 2.591
+    },
+    {
+      "word": "account",
+      "weight": 2.554
+    },
+    {
+      "word": "remove",
+      "weight": 2.519
+    },
+    {
+      "word": "email",
+      "weight": 2.484
+    },
+    {
+      "word": "site",
+      "weight": 2.467
+    }
+  ],
+  "top_ham_features": [
+    {
+      "word": "enron",
+      "weight": -9.713
+    },
+    {
+      "word": "vince",
+      "weight": -5.786
+    },
+    {
+      "word": "thanks",
+      "weight": -5.423
+    },
+    {
+      "word": "2001",
+      "weight": -4.944
+    },
+    {
+      "word": "attached",
+      "weight": -4.856
+    },
+    {
+      "word": "the",
+      "weight": -4.772
+    },
+    {
+      "word": "2000",
+      "weight": -4.585
+    },
+    {
+      "word": "louise",
+      "weight": -4.465
+    },
+    {
+      "word": "713",
+      "weight": -3.92
+    },
+    {
+      "word": "gas",
+      "weight": -3.797
+    },
+    {
+      "word": "enron com",
+      "weight": -3.59
+    },
+    {
+      "word": "please",
+      "weight": -3.363
+    },
+    {
+      "word": "will",
+      "weight": -3.347
+    },
+    {
+      "word": "doc",
+      "weight": -3.186
+    },
+    {
+      "word": "on",
+      "weight": -3.162
+    },
+    {
+      "word": "energy",
+      "weight": -3.157
+    },
+    {
+      "word": "deal",
+      "weight": -3.102
+    },
+    {
+      "word": "houston",
+      "weight": -3.073
+    },
+    {
+      "word": "meeting",
+      "weight": -3.005
+    },
+    {
+      "word": "questions",
+      "weight": -2.804
+    }
+  ]
+}
