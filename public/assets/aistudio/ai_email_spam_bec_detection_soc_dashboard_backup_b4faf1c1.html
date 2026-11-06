@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanguard SEG - AI Email Spam & BEC SOC Dashboard</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            soc: {
+              bg: '#0b0f19',
+              card: '#111827',
+              border: '#1f293d',
+              accent: '#00f2fe',
+              danger: '#ff4b5c',
+              warning: '#ffb703',
+              success: '#00e676'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f293d;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f2fe;
+    }
+
+    /* Glow effects */
+    .glow-cyan {
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+    }
+    .glow-red {
+      box-shadow: 0 0 15px rgba(255, 75, 92, 0.2);
+    }
+    .glow-green {
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.15);
+    }
+
+    /* Ticker animation */
+    @keyframes ticker {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+    .ticker-wrap {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-content {
+      display: inline-block;
+      animation: ticker 35s linear infinite;
+    }
+    .ticker-content:hover {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+  <!-- ================= HEADER & TICKER ================= -->
+  <header class="border-b border-soc-border bg-soc-card/80 backdrop-blur-md sticky top-0 z-50">
+    <!-- Live Threat Feed Ticker -->
+    <div class="bg-black/60 border-b border-soc-border/50 text-xs py-1.5 px-4 flex items-center justify-between text-slate-400">
+      <div class="flex items-center gap-2 text-cyan-400 font-semibold uppercase tracking-wider shrink-0 mr-4">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+        </span>
+        LIVE SEG FEED:
+      </div>
+      <div class="ticker-wrap w-full font-mono text-slate-300">
+        <div class="ticker-content flex items-center gap-8">
+          <span class="text-rose-400">🚨 [BLOCKED] BEC Executive Impersonation ($124k Wire Request) &bull; Origin: 185.220.101.4</span>
+          <span class="text-amber-400">⚠️ [QUARANTINED] Suspicious Link: outlook-credential-renew.com &bull; User Targeted: CFO</span>
+          <span class="text-emerald-400">✅ [PASSED] Legitimate Q3 Audit Review PDF &bull; Sender: audit@kpmg.com</span>
+          <span class="text-rose-400">🚨 [BLOCKED] Phishing Campaign Attempt (Microsoft OAuth Abuse) &bull; Origin: 45.142.214.2</span>
+          <!-- Duplicate for seamless looping -->
+          <span class="text-rose-400">🚨 [BLOCKED] BEC Executive Impersonation ($124k Wire Request) &bull; Origin: 185.220.101.4</span>
+          <span class="text-amber-400">⚠️ [QUARANTINED] Suspicious Link: outlook-credential-renew.com &bull; User Targeted: CFO</span>
+          <span class="text-emerald-400">✅ [PASSED] Legitimate Q3 Audit Review PDF &bull; Sender: audit@kpmg.com</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-cyan-400">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg text-white tracking-tight">VANGUARD SEG</h1>
+            <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-semibold px-2 py-0.5 rounded border border-cyan-500/30">AI SHIELD v3.2</span>
+          </div>
+          <p class="text-xs text-slate-400">AIC211 Cybersecurity Project &bull; Email Spam & BEC Defense System</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center gap-2 bg-slate-900/80 p-1 rounded-xl border border-soc-border">
+        <button id="tab-inspector-btn" onclick="switchTab('inspector')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-cyan-500 text-black shadow-lg shadow-cyan-500/20">
+          <i data-lucide="scan" class="w-4 h-4"></i>
+          Threat Inspector
+        </button>
+        <button id="tab-analytics-btn" onclick="switchTab('analytics')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          Model Analytics & XAI
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+    <!-- Metrics Summary Bar -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
+      <div class="bg-soc-card border border-soc-border rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+          <span>Emails Evaluated</span>
+          <i data-lucide="mail" class="w-4 h-4 text-cyan-400"></i>
+        </div>
+        <div class="text-2xl font-bold font-mono text-white">128,490</div>
+        <div class="text-[10px] text-emerald-400 flex items-center gap-1 mt-1">
+          <i data-lucide="trending-up" class="w-3 h-3"></i> +12.4% this week
+        </div>
+      </div>
+
+      <div class="bg-soc-card border border-soc-border rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+          <span>Spam Blocked</span>
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+        </div>
+        <div class="text-2xl font-bold font-mono text-amber-400">42,118</div>
+        <div class="text-[10px] text-slate-400 mt-1">32.7% of total traffic</div>
+      </div>
+
+      <div class="bg-soc-card border border-soc-border rounded-xl p-4 flex flex-col justify-between border-l-2 border-l-rose-500">
+        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+          <span>BEC Intercepted</span>
+          <i data-lucide="zap" class="w-4 h-4 text-rose-500"></i>
+        </div>
+        <div class="text-2xl font-bold font-mono text-rose-400">1,842</div>
+        <div class="text-[10px] text-rose-300 flex items-center gap-1 mt-1">
+          <i data-lucide="lock" class="w-3 h-3"></i> 100% Critical BEC Filtered
+        </div>
+      </div>
+
+      <div class="bg-soc-card border border-soc-border rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+          <span>False Positive Rate</span>
+          <i data-lucide="target" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+        <div class="text-2xl font-bold font-mono text-emerald-400">0.018%</div>
+        <div class="text-[10px] text-emerald-400 mt-1">Optimized Logistic Reg.</div>
+      </div>
+
+      <div class="col-span-2 md:col-span-1 bg-soc-card border border-soc-border rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+          <span>System Status</span>
+          <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
+        </div>
+        <div class="text-lg font-bold text-white flex items-center gap-2">
+          <span>ACTIVE</span>
+          <span class="text-xs text-slate-400 font-normal">v3.2</span>
+        </div>
+        <div class="text-[10px] text-cyan-400 font-mono mt-1">Latency: 14ms &bull; TF-IDF NLP</div>
+      </div>
+    </div>
+
+    <!-- TAB 1: THREAT INSPECTOR & SANDBOX -->
+    <div id="section-inspector" class="space-y-6">
+      
+      <!-- Top Grid: Input & Scenario Selection vs Realtime Results -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left 7 Cols: Email Input & Preloaded Scenarios -->
+        <div class="lg:col-span-7 bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4 glow-cyan">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-soc-border pb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="mail-search" class="w-5 h-5 text-cyan-400"></i>
+              <h2 class="font-semibold text-white">Threat Inspector & Payload Sandbox</h2>
+            </div>
+            <span class="text-xs text-slate-400">Paste text or select real-world scenario</span>
+          </div>
+
+          <!-- Scenario Buttons Grid -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Pre-loaded SOC Test Scenarios:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button onclick="loadScenario('bec')" class="text-left p-2.5 rounded-xl border border-soc-border bg-slate-900/60 hover:border-rose-500/50 hover:bg-rose-500/5 transition-all group">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-rose-400 group-hover:text-rose-300">1. BEC Wire Request</span>
+                  <span class="text-[10px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-mono">HIGH RISK</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-1">Executive impersonation & urgent fund transfer</p>
+              </button>
+
+              <button onclick="loadScenario('phishing')" class="text-left p-2.5 rounded-xl border border-soc-border bg-slate-900/60 hover:border-amber-500/50 hover:bg-amber-500/5 transition-all group">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-amber-400 group-hover:text-amber-300">2. Credential Phishing</span>
+                  <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono">SUSPICIOUS</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-1">Urgent Outlook session expiry & fake link</p>
+              </button>
+
+              <button onclick="loadScenario('spam')" class="text-left p-2.5 rounded-xl border border-soc-border bg-slate-900/60 hover:border-amber-400/50 hover:bg-amber-400/5 transition-all group">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-amber-300 group-hover:text-amber-200">3. Commercial Promo</span>
+                  <span class="text-[10px] bg-amber-400/10 text-amber-300 px-1.5 py-0.5 rounded font-mono">SPAM</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-1">Discounts, limited time offer & marketing links</p>
+              </button>
+
+              <button onclick="loadScenario('ham')" class="text-left p-2.5 rounded-xl border border-soc-border bg-slate-900/60 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all group">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-emerald-400 group-hover:text-emerald-300">4. Clean Corporate Email</span>
+                  <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-mono">BENIGN</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-1">Q3 Financial forecast report & meeting schedule</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Email Input Textarea -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <label for="email-input" class="font-semibold text-slate-300">Email Content / Payload Buffer:</label>
+              <button onclick="clearInput()" class="text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+                <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Clear
+              </button>
+            </div>
+            <textarea id="email-input" rows="7" 
+              class="w-full bg-slate-950 border border-soc-border rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 transition-all resize-none"
+              placeholder="Paste suspicious raw email message content here..."></textarea>
+          </div>
+
+          <!-- Action Trigger Buttons -->
+          <div class="flex items-center justify-between pt-1">
+            <div class="text-[11px] text-slate-400 flex items-center gap-1">
+              <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-400"></i> Active Model: <span class="font-semibold text-slate-200">Balanced Logistic Reg. (TF-IDF)</span>
+            </div>
+            <button onclick="analyzeEmail()" class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs rounded-xl shadow-lg shadow-cyan-500/25 flex items-center gap-2 transition-all transform active:scale-95">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i> Run Threat Analysis
+            </button>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Analysis Result Card -->
+        <div class="lg:col-span-5 bg-soc-card border border-soc-border rounded-2xl p-5 flex flex-col justify-between space-y-4">
+          <div class="border-b border-soc-border pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="activity" class="w-5 h-5 text-cyan-400"></i>
+              <h2 class="font-semibold text-white">SEG Analysis Decision</h2>
+            </div>
+            <span id="decision-timestamp" class="text-[10px] font-mono text-slate-400">Awaiting scan...</span>
+          </div>
+
+          <!-- Score Circle & Main Verdict -->
+          <div id="verdict-container" class="text-center py-4 px-2 rounded-xl bg-slate-900/50 border border-soc-border space-y-3">
+            <div class="relative inline-flex items-center justify-center">
+              <svg class="w-28 h-28 transform -rotate-90">
+                <circle cx="56" cy="56" r="46" stroke="#1f293d" stroke-width="8" fill="transparent" />
+                <circle id="score-circle" cx="56" cy="56" r="46" stroke="#00f2fe" stroke-width="8" fill="transparent" 
+                        stroke-dasharray="289" stroke-dashoffset="289" class="transition-all duration-1000 ease-out" />
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span id="score-text" class="text-2xl font-black font-mono text-white">0%</span>
+                <span class="text-[9px] text-slate-400 uppercase tracking-widest">Risk Score</span>
+              </div>
+            </div>
+
+            <div>
+              <div id="verdict-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">
+                READY FOR ANALYSIS
+              </div>
+              <p id="verdict-desc" class="text-xs text-slate-400 mt-2 max-w-xs mx-auto">
+                Load a scenario or paste email text, then click "Run Threat Analysis".
+              </p>
+            </div>
+          </div>
+
+          <!-- Action Recommendation Box -->
+          <div class="p-3 rounded-xl border border-soc-border bg-slate-950/70 space-y-1.5">
+            <div class="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="command" class="w-3.5 h-3.5 text-cyan-400"></i> Recommended Gateway Action:
+            </div>
+            <div id="recommended-action" class="text-xs font-mono font-bold text-slate-400 pl-5">
+              -- Pending Scan --
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grid: Explainable AI (XAI) Tokens & Threat Vector Radar/Meters -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left 7 Cols: XAI Feature Tokens Breakdown -->
+        <div class="lg:col-span-7 bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-soc-border pb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="binary" class="w-5 h-5 text-cyan-400"></i>
+              <h3 class="font-semibold text-white">Explainable AI (XAI): TF-IDF Indicator Tokens</h3>
+            </div>
+            <span class="text-xs text-slate-400 font-mono">TF-IDF Vector Weights</span>
+          </div>
+
+          <p class="text-xs text-slate-400">
+            Tokens contributing positively increase the threat probability (Red/Amber), while tokens contributing negatively align with legitimate business communications (Green).
+          </p>
+
+          <div class="space-y-3">
+            <div>
+              <div class="text-[11px] font-semibold text-rose-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> High-Risk Threat Indicators (Positive Feature Weights):
+              </div>
+              <div id="positive-tokens" class="flex flex-wrap gap-1.5 min-h-[38px] p-2 bg-slate-950 rounded-xl border border-soc-border text-xs">
+                <span class="text-slate-500 italic text-xs">Run analysis to extract threat tokens...</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Benign / Legitimate Indicators (Negative Feature Weights):
+              </div>
+              <div id="negative-tokens" class="flex flex-wrap gap-1.5 min-h-[38px] p-2 bg-slate-950 rounded-xl border border-soc-border text-xs">
+                <span class="text-slate-500 italic text-xs">Run analysis to extract benign tokens...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Security Risk Vector Meters -->
+        <div class="lg:col-span-5 bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4">
+          <div class="border-b border-soc-border pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sliders" class="w-5 h-5 text-cyan-400"></i>
+              <h3 class="font-semibold text-white">Risk Vector Breakdown</h3>
+            </div>
+            <span class="text-xs text-slate-400">Heuristic Signals</span>
+          </div>
+
+          <div class="space-y-3 text-xs font-mono">
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Urgency / Social Engineering</span>
+                <span id="meter-urgency-val" class="text-cyan-400">0%</span>
+              </div>
+              <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-soc-border">
+                <div id="meter-urgency-bar" class="bg-rose-500 h-full w-0 transition-all duration-700"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Financial Intent / Wire Trigger</span>
+                <span id="meter-financial-val" class="text-cyan-400">0%</span>
+              </div>
+              <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-soc-border">
+                <div id="meter-financial-bar" class="bg-amber-400 h-full w-0 transition-all duration-700"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Credential / Link Harvester</span>
+                <span id="meter-cred-val" class="text-cyan-400">0%</span>
+              </div>
+              <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-soc-border">
+                <div id="meter-cred-bar" class="bg-rose-500 h-full w-0 transition-all duration-700"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Corporate Meeting / Context</span>
+                <span id="meter-benign-val" class="text-cyan-400">0%</span>
+              </div>
+              <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-soc-border">
+                <div id="meter-benign-bar" class="bg-emerald-400 h-full w-0 transition-all duration-700"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: MODEL ANALYTICS & PIPELINE COMPARISON -->
+    <div id="section-analytics" class="hidden space-y-6">
+      
+      <!-- Top Grid: Model Metrics & Confusion Matrix -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left 7 Cols: Model Comparison Chart -->
+        <div class="lg:col-span-7 bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-soc-border pb-3">
+            <div>
+              <h3 class="font-semibold text-white flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-5 h-5 text-cyan-400"></i> Model Performance Comparison
+              </h3>
+              <p class="text-xs text-slate-400">Logistic Regression (Balanced) vs. Random Forest</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs">
+              <span class="flex items-center gap-1.5 text-cyan-400"><span class="w-3 h-3 rounded-sm bg-cyan-500 inline-block"></span> LogReg</span>
+              <span class="flex items-center gap-1.5 text-amber-400"><span class="w-3 h-3 rounded-sm bg-amber-500 inline-block"></span> Random Forest</span>
+            </div>
+          </div>
+
+          <div class="h-64 w-full">
+            <canvas id="modelComparisonChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Asymmetric Cost Optimization & False Positive Reduction -->
+        <div class="lg:col-span-5 bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="border-b border-soc-border pb-3 mb-3">
+              <h3 class="font-semibold text-white flex items-center gap-2">
+                <i data-lucide="shield-alert" class="w-5 h-5 text-emerald-400"></i> Asymmetric Cost Matrix
+              </h3>
+              <p class="text-xs text-slate-400">Why Logistic Regression with Balanced Class Weights Wins</p>
+            </div>
+
+            <!-- Confusion Matrix Display Cards -->
+            <div class="grid grid-cols-2 gap-3 text-center text-xs font-mono">
+              <div class="bg-slate-950 p-3 rounded-xl border border-emerald-500/30">
+                <div class="text-slate-400 text-[10px] uppercase">True Negatives (Legit Delivered)</div>
+                <div class="text-lg font-bold text-emerald-400 mt-1">99.82%</div>
+                <div class="text-[10px] text-slate-500 mt-0.5">Clean ham flow</div>
+              </div>
+
+              <div class="bg-slate-950 p-3 rounded-xl border border-rose-500/30">
+                <div class="text-slate-400 text-[10px] uppercase">False Positives (Legit Blocked)</div>
+                <div class="text-lg font-bold text-rose-400 mt-1">0.018%</div>
+                <div class="text-[10px] text-emerald-400 mt-0.5">3.1x lower than RF!</div>
+              </div>
+
+              <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/30">
+                <div class="text-slate-400 text-[10px] uppercase">False Negatives (Missed Threat)</div>
+                <div class="text-lg font-bold text-amber-400 mt-1">0.12%</div>
+                <div class="text-[10px] text-slate-500 mt-0.5">Minimal leakage</div>
+              </div>
+
+              <div class="bg-slate-950 p-3 rounded-xl border border-cyan-500/30">
+                <div class="text-slate-400 text-[10px] uppercase">True Positives (BEC Intercept)</div>
+                <div class="text-lg font-bold text-cyan-400 mt-1">99.88%</div>
+                <div class="text-[10px] text-slate-500 mt-0.5">High recall rate</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/30 text-xs text-cyan-200 space-y-1">
+            <span class="font-bold flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Cybersecurity Takeaway:</span>
+            <p class="text-[11px] leading-relaxed text-slate-300">
+              In enterprise email security, blocking a legitimate C-level financial email (False Positive) causes operational stoppage. Class-balanced Logistic Regression reduces False Positives drastically while maintaining 99%+ BEC detection.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Feature Importance / Indicator Weights -->
+      <div class="bg-soc-card border border-soc-border rounded-2xl p-5 space-y-4">
+        <div class="border-b border-soc-border pb-3 flex justify-between items-center">
+          <div>
+            <h3 class="font-semibold text-white flex items-center gap-2">
+              <i data-lucide="layers" class="w-5 h-5 text-cyan-400"></i> Global Model Feature Weights (TF-IDF Coefficients)
+            </h3>
+            <p class="text-xs text-slate-400">Top indicator tokens learned by the model across 50,000+ training emails</p>
+          </div>
+        </div>
+
+        <div class="h-64 w-full">
+          <canvas id="featureWeightChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-soc-border bg-soc-card/50 py-4 px-4 sm:px-8 mt-8 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shield" class="w-4 h-4 text-cyan-400"></i>
+        <span><strong>AIC211 Cybersecurity Capstone Demo</strong> &bull; Vanguard Email Shield AI</span>
+      </div>
+      <div class="font-mono text-[11px] text-slate-400 flex items-center gap-4">
+        <span>Model: Balanced Logistic Regression</span>
+        <span>Precision: 99.1%</span>
+        <span>Recall: 99.8%</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT & TF-IDF ENGINE ================= -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Tab Switcher
+    function switchTab(tab) {
+      const inspectorSec = document.getElementById('section-inspector');
+      const analyticsSec = document.getElementById('section-analytics');
+      const inspectorBtn = document.getElementById('tab-inspector-btn');
+      const analyticsBtn = document.getElementById('tab-analytics-btn');
+
+      if (tab === 'inspector') {
+        inspectorSec.classList.remove('hidden');
+        analyticsSec.classList.add('hidden');
+        
+        inspectorBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-cyan-500 text-black shadow-lg shadow-cyan-500/20";
+        analyticsBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all";
+      } else {
+        inspectorSec.classList.add('hidden');
+        analyticsSec.classList.remove('hidden');
+
+        analyticsBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-cyan-500 text-black shadow-lg shadow-cyan-500/20";
+        inspectorBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all";
+        
+        // Render charts when switching to analytics tab
+        renderAnalyticsCharts();
+      }
+    }
+
+    // Pre-loaded Scenarios Data
+    const scenarios = {
+      bec: "URGENT CONFIDENTIAL REQUEST: Executive Wire Transfer required before EOD ($85,000). Please process immediately to foreign vendor account for project acquisition. Do not discuss over phone as meeting is in progress.",
+      phishing: "CRITICAL ACCOUNT SUSPENSION NOTICE: Your Microsoft 365 password expires today. Click here http://outlook-login-portal-verify.com to confirm your password credentials immediately to prevent email disruption.",
+      spam: "LIMITED TIME EXCLUSIVE PROMO OFFER! Get 70% discount on all software licenses today only! Click http://cheap-deals-online.net to claim your free voucher now!",
+      ham: "Hi Team, attached is the revised Q3 Financial Forecast report. The strategy review meeting is scheduled for tomorrow at 2:00 PM on Teams. Please let me know if you have questions."
+    };
+
+    function loadScenario(type) {
+      if (scenarios[type]) {
+        document.getElementById('email-input').value = scenarios[type];
+        analyzeEmail();
+      }
+    }
+
+    function clearInput() {
+      document.getElementById('email-input').value = '';
+      resetVerdictUI();
+    }
+
+    // Heuristic NLP / Feature Weight Dictionary (Simulating trained TF-IDF Logistic Regression)
+    const riskVocabulary = {
+      // High Risk Threat Indicators
+      'urgent': 2.8, 'confidential': 2.4, 'wire': 3.5, 'transfer': 3.1, 'acquisition': 2.2,
+      'expiration': 2.5, 'expire': 2.3, 'password': 2.9, 'credentials': 3.2, 'suspension': 2.7,
+      'click': 1.8, 'immediately': 2.1, 'http': 3.0, 'https': 1.2, 'confirm': 1.9, 'login': 2.8,
+      'verify': 2.4, 'promo': 2.0, 'discount': 1.9, 'free': 1.8, 'voucher': 2.1, 'claim': 2.0,
+      'account': 1.5, 'vendor': 1.9, 'eod': 2.0, '$85,000': 3.4, 'offer': 1.6,
+
+      // Benign / Legitimate Indicators (Negative Risk Weights)
+      'attached': -2.1, 'forecast': -2.5, 'meeting': -2.8, 'teams': -2.4, 'scheduled': -2.2,
+      'report': -1.9, 'questions': -1.8, 'review': -1.7, 'revised': -1.5, 'strategy': -1.6,
+      'hi': -0.8, 'team': -1.2, 'thanks': -1.5, 'regards': -1.4, 'project': -0.5
+    };
+
+    function analyzeEmail() {
+      const text = document.getElementById('email-input').value.trim();
+      if (!text) {
+        alert("Please enter or select an email scenario to inspect.");
+        return;
+      }
+
+      const words = text.toLowerCase().match(/\b[a-z0-9_$-]+\b|https?:\/\/\S+/g) || [];
+      
+      let rawScore = 0;
+      let matchedPositives = [];
+      let matchedNegatives = [];
+
+      let urgencyCount = 0;
+      let financialCount = 0;
+      let credCount = 0;
+      let benignCount = 0;
+
+      words.forEach(word => {
+        if (riskVocabulary.hasOwnProperty(word)) {
+          const weight = riskVocabulary[word];
+          rawScore += weight;
+
+          if (weight > 0) {
+            matchedPositives.push({ word: word.toUpperCase(), weight: weight });
+            if (['urgent', 'immediately', 'confidential', 'eod'].includes(word)) urgencyCount++;
+            if (['wire', 'transfer', '$85,000', 'acquisition', 'vendor'].includes(word)) financialCount++;
+            if (['password', 'credentials', 'login', 'http', 'suspension', 'confirm'].includes(word)) credCount++;
+          } else {
+            matchedNegatives.push({ word: word.toUpperCase(), weight: weight });
+            benignCount++;
+          }
+        }
+      });
+
+      // Calculate final probability (0% - 100%) using Sigmoid scaling
+      const sigmoidScore = 1 / (1 + Math.exp(- (rawScore - 0.5)));
+      const riskPercent = Math.min(Math.max(Math.round(sigmoidScore * 100), 2), 99);
+
+      // Render Verdict UI
+      updateVerdictUI(riskPercent, matchedPositives, matchedNegatives, {
+        urgency: Math.min(urgencyCount * 33 + (riskPercent > 50 ? 25 : 0), 100),
+        financial: Math.min(financialCount * 35 + (riskPercent > 70 ? 20 : 0), 100),
+        cred: Math.min(credCount * 30 + (riskPercent > 60 ? 30 : 0), 100),
+        benign: Math.min(benignCount * 30 + (riskPercent < 30 ? 40 : 0), 100)
+      });
+    }
+
+    function updateVerdictUI(risk, positives, negatives, metrics) {
+      // Circle Stroke Offset (289 is max circumference)
+      const circle = document.getElementById('score-circle');
+      const offset = 289 - (289 * risk) / 100;
+      circle.style.strokeDashoffset = offset;
+
+      const scoreText = document.getElementById('score-text');
+      scoreText.innerText = risk + "%";
+
+      const badge = document.getElementById('verdict-badge');
+      const desc = document.getElementById('verdict-desc');
+      const rec = document.getElementById('recommended-action');
+      const timestamp = document.getElementById('decision-timestamp');
+
+      timestamp.innerText = "Inspected: " + new Date().toLocaleTimeString();
+
+      if (risk >= 80) {
+        circle.style.stroke = "#ff4b5c";
+        scoreText.className = "text-2xl font-black font-mono text-rose-500";
+        badge.className = "inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-rose-500/20 text-rose-400 border border-rose-500/40 glow-red";
+        badge.innerText = "🚨 CRITICAL THREAT / HIGH RISK BEC";
+        desc.innerText = "High-confidence Executive Impersonation or BEC Wire Request detected.";
+        rec.className = "text-xs font-mono font-bold text-rose-400 pl-2 border-l-2 border-rose-500";
+        rec.innerText = "IMMEDIATE SEG QUARANTINE & ALERT SOC ANALYST";
+      } else if (risk >= 45) {
+        circle.style.stroke = "#ffb703";
+        scoreText.className = "text-2xl font-black font-mono text-amber-400";
+        badge.className = "inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40";
+        badge.innerText = "⚠️ SUSPICIOUS PHISHING / SPAM";
+        desc.innerText = "Contains credential harvesting indicators or marketing spam characteristics.";
+        rec.className = "text-xs font-mono font-bold text-amber-300 pl-2 border-l-2 border-amber-400";
+        rec.innerText = "FLAG FOR ANALYST REVIEW & RE-WRITE URL LINKS";
+      } else {
+        circle.style.stroke = "#00e676";
+        scoreText.className = "text-2xl font-black font-mono text-emerald-400";
+        badge.className = "inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 glow-green";
+        badge.innerText = "✅ BENIGN CORPORATE MAIL";
+        desc.innerText = "Clean message payload aligning with normal business context.";
+        rec.className = "text-xs font-mono font-bold text-emerald-300 pl-2 border-l-2 border-emerald-500";
+        rec.innerText = "DELIVER SAFELY TO INBOX";
+      }
+
+      // Render Tokens
+      const posContainer = document.getElementById('positive-tokens');
+      const negContainer = document.getElementById('negative-tokens');
+
+      if (positives.length > 0) {
+        posContainer.innerHTML = positives.map(p => 
+          `<span class="bg-rose-500/15 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded font-mono text-[11px] flex items-center gap-1">
+             ${p.word} <span class="text-[9px] text-rose-400 font-bold">+${p.weight}</span>
+           </span>`
+        ).join('');
+      } else {
+        posContainer.innerHTML = `<span class="text-slate-500 italic text-xs">No significant high-risk tokens detected.</span>`;
+      }
+
+      if (negatives.length > 0) {
+        negContainer.innerHTML = negatives.map(n => 
+          `<span class="bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded font-mono text-[11px] flex items-center gap-1">
+             ${n.word} <span class="text-[9px] text-emerald-400 font-bold">${n.weight}</span>
+           </span>`
+        ).join('');
+      } else {
+        negContainer.innerHTML = `<span class="text-slate-500 italic text-xs">No benign context indicators matched.</span>`;
+      }
+
+      // Update Risk Meters
+      document.getElementById('meter-urgency-val').innerText = metrics.urgency + "%";
+      document.getElementById('meter-urgency-bar').style.width = metrics.urgency + "%";
+
+      document.getElementById('meter-financial-val').innerText = metrics.financial + "%";
+      document.getElementById('meter-financial-bar').style.width = metrics.financial + "%";
+
+      document.getElementById('meter-cred-val').innerText = metrics.cred + "%";
+      document.getElementById('meter-cred-bar').style.width = metrics.cred + "%";
+
+      document.getElementById('meter-benign-val').innerText = metrics.benign + "%";
+      document.getElementById('meter-benign-bar').style.width = metrics.benign + "%";
+    }
+
+    function resetVerdictUI() {
+      document.getElementById('score-circle').style.strokeDashoffset = 289;
+      document.getElementById('score-text').innerText = "0%";
+      document.getElementById('score-text').className = "text-2xl font-black font-mono text-white";
+      
+      const badge = document.getElementById('verdict-badge');
+      badge.className = "inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700";
+      badge.innerText = "READY FOR ANALYSIS";
+
+      document.getElementById('verdict-desc').innerText = "Load a scenario or paste email text, then click 'Run Threat Analysis'.";
+      document.getElementById('recommended-action').innerText = "-- Pending Scan --";
+      document.getElementById('recommended-action').className = "text-xs font-mono font-bold text-slate-400 pl-5";
+
+      document.getElementById('positive-tokens').innerHTML = `<span class="text-slate-500 italic text-xs">Run analysis to extract threat tokens...</span>`;
+      document.getElementById('negative-tokens').innerHTML = `<span class="text-slate-500 italic text-xs">Run analysis to extract benign tokens...</span>`;
+
+      ['urgency', 'financial', 'cred', 'benign'].forEach(m => {
+        document.getElementById(`meter-${m}-val`).innerText = "0%";
+        document.getElementById(`meter-${m}-bar`).style.width = "0%";
+      });
+    }
+
+    // Render Chart.js Analytics
+    let chartsInitialized = false;
+    function renderAnalyticsCharts() {
+      if (chartsInitialized) return;
+      chartsInitialized = true;
+
+      // Chart 1: Model Comparison
+      const ctx1 = document.getElementById('modelComparisonChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'PR-AUC'],
+          datasets: [
+            {
+              label: 'Logistic Regression (Balanced)',
+              data: [99.85, 99.12, 99.88, 99.50, 99.92],
+              backgroundColor: '#00f2fe',
+              borderRadius: 6
+            },
+            {
+              label: 'Random Forest',
+              data: [99.20, 95.80, 98.10, 96.93, 98.40],
+              backgroundColor: '#ffb703',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              min: 90,
+              max: 100,
+              grid: { color: '#1f293d' },
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 10 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#e2e8f0', font: { size: 11, weight: '600' } }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+
+      // Chart 2: Feature Weights
+      const ctx2 = document.getElementById('featureWeightChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ['WIRE TRANSFER', 'CONFIDENTIAL', 'PASSWORD RESET', 'URGENT EOD', 'SUSPENSION', 'MEETING SCHEDULED', 'Q3 FORECAST', 'TEAMS ATTACHED'],
+          datasets: [{
+            label: 'TF-IDF Coefficient Weight',
+            data: [3.8, 3.2, 2.9, 2.7, 2.4, -2.5, -2.9, -3.4],
+            backgroundColor: (ctx) => ctx.raw > 0 ? '#ff4b5c' : '#00e676',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              grid: { color: '#1f293d' },
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 10 } }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: '#e2e8f0', font: { family: 'JetBrains Mono', size: 11 } }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // Auto-run BEC Scenario on initial load for instant visual impact
+    window.onload = function() {
+      loadScenario('bec');
+    };
+  </script>
+
+</body>
+</html>

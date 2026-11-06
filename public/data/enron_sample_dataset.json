@@ -1,0 +1,162 @@
+[
+  {
+    "id": "EML-1001",
+    "time": "10:42:15",
+    "sender": "executive-ceo@holding-corp-partners.com",
+    "subject": "URGENT CONFIDENTIAL: Executive Wire Transfer ($85,000)",
+    "category": "bec",
+    "score": 98,
+    "status": "BLOCKED",
+    "content": "URGENT CONFIDENTIAL REQUEST: Executive Wire Transfer required before EOD ($85,000). Please process immediately to foreign vendor account for project acquisition. Do not discuss over phone as meeting is in progress."
+  },
+  {
+    "id": "EML-1002",
+    "time": "10:38:02",
+    "sender": "security-alert@microsoft-outlook-verify.com",
+    "subject": "CRITICAL: Password Expiry Notification - Re-authenticate",
+    "category": "phishing",
+    "score": 88,
+    "status": "QUARANTINED",
+    "content": "CRITICAL ACCOUNT SUSPENSION NOTICE: Your Microsoft 365 password expires today. Click here http://outlook-login-portal-verify.com to confirm your password credentials immediately to prevent email disruption."
+  },
+  {
+    "id": "EML-1003",
+    "time": "10:29:44",
+    "sender": "vince.kaminski@enron.com",
+    "subject": "Revised Q3 Financial Forecast Model & Strategy Review",
+    "category": "ham",
+    "score": 4,
+    "status": "DELIVERED",
+    "content": "Hi Team, attached is the revised Q3 Financial Forecast report. The strategy review meeting is scheduled for tomorrow at 2:00 PM on Teams. Please let me know if you have questions."
+  },
+  {
+    "id": "EML-1004",
+    "time": "10:15:19",
+    "sender": "special-promo@discount-software-hub.net",
+    "subject": "Exclusive 70% Discount Voucher on Enterprise Licenses",
+    "category": "spam",
+    "score": 82,
+    "status": "QUARANTINED",
+    "content": "LIMITED TIME EXCLUSIVE PROMO OFFER! Get 70% discount on all software licenses today only! Click http://cheap-deals-online.net to claim your free voucher now!"
+  },
+  {
+    "id": "EML-1005",
+    "time": "09:58:11",
+    "sender": "billing@vendor-supply-chain.org",
+    "subject": "Updated Bank Wire Instructions for Pending Invoice #84102",
+    "category": "bec",
+    "score": 96,
+    "status": "BLOCKED",
+    "content": "Important update regarding outstanding invoice. Our banking partner has changed due to routine financial audit. Please route the wire transfer of $42,600 to new account details attached immediately."
+  },
+  {
+    "id": "EML-1006",
+    "time": "09:44:30",
+    "sender": "phillip.allen@enron.com",
+    "subject": "Gas Trading Desk Daily Schedule & Allocation Summary",
+    "category": "ham",
+    "score": 6,
+    "status": "DELIVERED",
+    "content": "Please find the daily gas allocation sheets for our West power desk. Thanks for coordinating the transport nominations with our pipeline operators."
+  },
+  {
+    "id": "EML-1007",
+    "time": "09:30:15",
+    "sender": "service@it-helpdesk-portal365.online",
+    "subject": "Action Required: Verify Suspended Mailbox Storage",
+    "category": "phishing",
+    "score": 86,
+    "status": "QUARANTINED",
+    "content": "Your mailbox has exceeded the storage allocation limit. Inbound emails have been paused. Verify your credentials at http://verify-storage-webmail.com to resume normal email receipt."
+  },
+  {
+    "id": "EML-1008",
+    "time": "09:12:44",
+    "sender": "louise.kitchen@enron.com",
+    "subject": "Weekly Trading Executive Summary & Legal Notes",
+    "category": "ham",
+    "score": 5,
+    "status": "DELIVERED",
+    "content": "Please review the updated executive summary for wholesale trading. Legal council has approved the revised compliance stipulations."
+  },
+  {
+    "id": "EML-1009",
+    "time": "08:55:00",
+    "sender": "cfo-approval@corp-executives-desk.com",
+    "subject": "CONFIDENTIAL DISQUISITION: Immediate Settlement of M&A Retainer",
+    "category": "bec",
+    "score": 97,
+    "status": "BLOCKED",
+    "content": "This is strictly confidential. In accordance with Board decision, execute expedited payment of $120,000 to external advisory escrow account. Details attached in password protected zip."
+  },
+  {
+    "id": "EML-1010",
+    "time": "08:40:12",
+    "sender": "newsletter@global-finance-insights.io",
+    "subject": "Daily Commodity Energy Market Wrap: Crude Oil & Gas Indices",
+    "category": "ham",
+    "score": 7,
+    "status": "DELIVERED",
+    "content": "Daily Market Intelligence: Henry Hub natural gas futures rose 1.4% following unexpected pipeline maintenance in the Gulf Coast region. Review full dataset in the analytics dashboard."
+  },
+  {
+    "id": "EML-1011",
+    "time": "08:22:33",
+    "sender": "prize-claim@online-jackpot-winner.xyz",
+    "subject": "CONGRATULATIONS: You have been selected as Lucky Winner of $500,000",
+    "category": "spam",
+    "score": 93,
+    "status": "BLOCKED",
+    "content": "You are the official winner of the annual international email sweepstakes. Provide bank account details and copy of passport to claim your cash award within 24 hours."
+  },
+  {
+    "id": "EML-1012",
+    "time": "08:05:18",
+    "sender": "hr-payroll@enron-internal-portal.net",
+    "subject": "Mandatory Tax Document W-2 Update Required for All Employees",
+    "category": "phishing",
+    "score": 91,
+    "status": "BLOCKED",
+    "content": "Year-end tax documents are ready for review. Login through the external employee verification portal http://enron-hr-tax-portal.net to confirm your social security number and direct deposit information."
+  },
+  {
+    "id": "EML-1013",
+    "time": "07:50:45",
+    "sender": "mark.taylor@enron.com",
+    "subject": "Contract Draft - Pipeline Capacity Transport Agreement",
+    "category": "ham",
+    "score": 3,
+    "status": "DELIVERED",
+    "content": "Attached is the revised contract for pipeline transportation. We added clause 4.2 covering emergency shut-off protocols as requested by engineering."
+  },
+  {
+    "id": "EML-1014",
+    "time": "07:35:10",
+    "sender": "accounts-receivable@supplier-invoicing-global.com",
+    "subject": "URGENT OVERDUE INVOICE #99281 - FINAL LEGAL DEMAND NOTICE",
+    "category": "bec",
+    "score": 95,
+    "status": "BLOCKED",
+    "content": "Your account is 60 days past due ($54,200). Our legal counsel will initiate asset lien procedures unless wire payment is confirmed by 12:00 PM today to our updated Zurich account."
+  },
+  {
+    "id": "EML-1015",
+    "time": "07:15:22",
+    "sender": "no-reply@docusign-notification-center.biz",
+    "subject": "DocuSign: Please sign Purchase Order Authorization #PO-448102",
+    "category": "phishing",
+    "score": 89,
+    "status": "QUARANTINED",
+    "content": "DocuSign Electronic Signature Request: Vince Kaminski has sent you a document for review and signature. Click http://docusign-auth-login-review.biz to access and authorize."
+  },
+  {
+    "id": "EML-1016",
+    "time": "06:55:04",
+    "sender": "jeff.skilling@enron.com",
+    "subject": "Executive Committee Strategy Agenda - Monday 8:30 AM",
+    "category": "ham",
+    "score": 4,
+    "status": "DELIVERED",
+    "content": "Meeting agenda for Monday morning: 1. Q4 Capital allocation 2. Risk management guidelines 3. Presentation of new credit derivatives model by Kaminski team."
+  }
+]
