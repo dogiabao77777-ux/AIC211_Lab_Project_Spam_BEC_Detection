@@ -1,0 +1,26 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Exclude large raw dataset files (> 100MB is rejected by GitHub)
+email.csv
+emails.csv
+*.csv.gz
+*.tar.gz
+
+# Python cache & virtual environment
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.venv/
+env/
+
+# Allow sample data in public directory
+!public/data/*.csv
+!public/data/*.json
